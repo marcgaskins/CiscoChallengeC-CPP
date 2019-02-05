@@ -67,7 +67,9 @@ int main(int argc, char** argv) {
     simp_str *s4 = simp_str_init("Test", 4);
     simp_str *s5 = simp_str_init(" ", 1);
     simp_str_format(s4,"My favorite number is %d", x);
+    puts(s4->str);
     simp_str_format(s5,"The sum of %d and %d is %d", x, y, z);
+    puts(s5->str);
     
     //**************************************************
     // clean the mess you caused                       *
@@ -149,10 +151,12 @@ int simp_str_format(simp_str *format_str, const char *fmt, ...)
     va_list argptr;
     va_start(argptr, fmt);
     rc = vsprintf(format_str->str, fmt, argptr);
+    if(rc <= 0)
+    {
+        return -1;
+    }
     va_end(argptr);
-    
-    puts(format_str->str);
-    
+       
     return 0;
 }
 //*****************************************************************************
